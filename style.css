@@ -175,3 +175,11 @@ input {
 .add-word-link:hover {
     background: #3c5fc0;
 }
+.add-words-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+  }
