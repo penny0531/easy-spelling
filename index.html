@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spelling Practice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container home-page">
+        <h1>Welcome to Spelling Practice!</h1>
+        <p>Please enter your name:</p>
+        <input type="text" id="nameInput" placeholder="Enter your name">
+        <br>
+        <!-- 这里加上了 class="home-btn" -->
+        <button class="home-btn" onclick="startPractice()">Start Practice</button>
+    </div>
+    <a href="add-word.html" class="add-word-link">➔ Add New Word</a>
+
+    <script>
+        function startPractice() {
+            const name = document.getElementById('nameInput').value;
+            if (name.trim() !== '') {
+                window.location.href = 'practice.html';
+            } else {
+                alert('Please enter your name.');
+            }
+        }
+    </script>
+</body>
+</html>

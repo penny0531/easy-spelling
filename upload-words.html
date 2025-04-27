@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Word List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container home-page">
+        <h1>Upload Word List</h1>
+        <input type="file" id="fileInput" accept=".txt,.csv">
+        <br><br>
+        <button class="home-btn" onclick="readFile()">Read File</button>
+
+        <div id="wordList" style="margin-top: 30px;"></div>
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+        <script src="youdao-api.js"></script>
+        <script src="upload-words.js"></script>
+    </body>
+    </html>

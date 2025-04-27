@@ -1,0 +1,177 @@
+body {
+    margin: 0;
+    height: 100vh;
+    background: #1f3c88; /* 深蓝背景 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Arial", sans-serif;
+}
+
+.container {
+    background: #ffffff;
+    width: 90%;
+    max-width: 600px;
+    padding: 40px 60px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center;
+}
+
+/* 首页用的更大卡片，不动练习区 */
+.home-page {
+    max-width: 750px;
+    padding: 80px 100px;
+}
+
+.top-bar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+#sound-button {
+    background: none;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.word-section {
+    margin-top: 20px;
+}
+
+#phonetic {
+    font-size: 28px;
+    color: #333;
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+#meaning {
+    font-size: 20px;
+    color: #777;
+    margin: 0;
+}
+
+/* 分割线 */
+.output-area {
+    margin: 20px auto;
+    font-size: 24px;
+    border-bottom: 2px solid #1f3c88;
+    min-height: 30px;
+    width: 80%;
+    padding: 10px 0;
+}
+
+/* 拼读块区域 */
+.blocks-area {
+    margin-top: 20px;
+}
+
+.blocks-area button {
+    background: #ffffff;
+    border: 2px solid #1f3c88;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 8px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    color: #333;
+}
+
+.blocks-area button:hover {
+    background-color: #e6f0ff;
+}
+
+/* 提交重置按钮 */
+.buttons-area {
+    margin-top: 30px;
+}
+
+.buttons-area button {
+    background: #1f3c88;  /* 蓝底 */
+    color: white;          /* 白字 */
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 轻微阴影 */
+}
+
+.buttons-area button:hover {
+    background: #3c5fc0; /* 悬停更亮一点 */
+}
+
+/* Well Done 提示 */
+.celebration {
+    margin-top: 30px;
+    font-size: 28px;
+    color: green;
+}
+/* 首页卡片 */
+.home-page {
+    width: 90%;
+    max-width: 750px;
+    padding: 80px 100px;
+}
+
+/* 首页标题 */
+h1 {
+    font-size: 42px;
+    margin-bottom: 30px; /* 保持和下面有空隙 */
+}
+
+/* 首页文字提示 */
+p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* 首页输入框 */
+input {
+    width: 80%;
+    padding: 18px 24px; /* 加大padding */
+    font-size: 22px;
+    border: 2px solid #1f3c88;
+    border-radius: 12px;
+    margin-bottom: 40px; /* 和按钮拉开空间 */
+}
+
+/* 首页按钮（专用） */
+.home-btn {
+    background: #ffffff;
+    color: #1f3c88;
+    border: 2px solid #1f3c88;
+    border-radius: 12px;
+    padding: 18px 50px; /* 按钮更大 */
+    font-size: 24px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.home-btn:hover {
+    background: #e6f0ff;
+}
+/* 首页右下角的小添加单词链接 */
+.add-word-link {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 16px;
+    color: #ffffff;
+    text-decoration: none;
+    background: rgba(31, 60, 136, 0.8); /* 深蓝色半透明背景 */
+    padding: 8px 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background 0.3s;
+}
+
+.add-word-link:hover {
+    background: #3c5fc0;
+}
