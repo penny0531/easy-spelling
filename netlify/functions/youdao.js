@@ -1,5 +1,6 @@
-const fetch = require('node-fetch');
+const https = require('https');
 const crypto = require('crypto');
+const querystring = require('querystring');
 
 const appKey = process.env.YOUDAO_APP_KEY;
 const appSecret = process.env.YOUDAO_APP_SECRET;
@@ -19,22 +20,57 @@ exports.handler = async (event, context) => {
     const salt = Date.now();
     const sign = generateSign(word, salt);
 
-    const url = `https://openapi.youdao.com/api?q=${encodeURIComponent(word)}&appKey=${appKey}&salt=${salt}&from=en&to=zh-CHS&sign=${sign}`;
+    const postData = querystring.stringify({
+      q: word,
+      appKey: appKey,
+      salt: salt,
+      from: 'en',
+      to: 'zh-CHS',
+      sign: sign
+    });
 
-    const response = await fetch(url);
-    const data = await response.json();
+    const options = {
+      hostname: 'openapi.youdao.com',
+      path: '/api',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    };
+
+    const apiResponse = await new Promise((resolve, reject) => {
+      const req = https.request(options, (res) => {
+        let rawData = '';
+        res.on('data', (chunk) => { rawData += chunk; });
+        res.on('end', () => {
+          try {
+            resolve(JSON.parse(rawData));
+          } catch (e) {
+            reject(e);
+          }
+        });
+      });
+
+      req.on('error', (e) => {
+        reject(e);
+      });
+
+      req.write(postData);
+      req.end();
+    });
 
     let chineseDefinition = "";
     let phonetic = "";
 
-    if (data && data.translation && Array.isArray(data.translation)) {
-      chineseDefinition = data.translation[0] || "No translation found";
+    if (apiResponse && apiResponse.translation && Array.isArray(apiResponse.translation)) {
+      chineseDefinition = apiResponse.translation[0] || "No translation found";
     } else {
       chineseDefinition = "No translation found";
     }
 
-    if (data && data.basic) {
-      phonetic = data.basic['us-phonetic'] || data.basic['uk-phonetic'] || data.basic['phonetic'] || "";
+    if (apiResponse && apiResponse.basic) {
+      phonetic = apiResponse.basic['us-phonetic'] || apiResponse.basic['uk-phonetic'] || apiResponse.basic['phonetic'] || "";
     }
 
     return {
