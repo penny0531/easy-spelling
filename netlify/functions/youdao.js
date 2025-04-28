@@ -45,7 +45,8 @@ exports.handler = async (event, context) => {
         res.on('data', (chunk) => { rawData += chunk; });
         res.on('end', () => {
           try {
-            resolve(JSON.parse(rawData));
+            const parsedData = JSON.parse(rawData);
+            resolve(parsedData);
           } catch (e) {
             reject(e);
           }
@@ -59,6 +60,9 @@ exports.handler = async (event, context) => {
       req.write(postData);
       req.end();
     });
+
+    // 👇 打印有道返回的原始数据
+    console.log('Youdao API Raw Response:', apiResponse);
 
     let chineseDefinition = "";
     let phonetic = "";

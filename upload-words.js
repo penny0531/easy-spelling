@@ -43,6 +43,7 @@ async function fetchWordData(word) {
 async function processAllWords(words) {
   const wordDetailsList = [];
   for (let word of words) {
+    word = word.trim();
     const chineseDefinition = await queryYoudao(word);
     const freeData = await fetchWordData(word);
     const chunks = splitChunks(word);
