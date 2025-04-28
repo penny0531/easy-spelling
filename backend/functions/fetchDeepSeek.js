@@ -1,7 +1,5 @@
-const fetch = require('node-fetch');
-
 exports.handler = async function(event, context) {
-  const apiKey = '你的DeepSeek API KEY'; // <<< 填上你的真实DeepSeek API Key
+  const apiKey = 'sk-fe248bf56d694559a0ecf5bf3b9d0f67'; // <<< 填上你的真实DeepSeek API Key
   const url = 'https://api.deepseek.com/v1/chat/completions';
 
   const { word } = JSON.parse(event.body);
@@ -22,7 +20,7 @@ exports.handler = async function(event, context) {
 
   try {
     const response = await fetch(url, {
-      method: 'POST',
+      method: 'POST'
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`
