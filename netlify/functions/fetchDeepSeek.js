@@ -29,13 +29,18 @@ exports.handler = async function(event, context) {
       });
   
       const result = await response.json();
-      const messageContent = result.choices[0].message.content;
+      let messageContent = result.choices[0].message.content;
+  
+      // 去除 markdown 代码块
+      messageContent = messageContent.replace(/```json|```/g, '').trim();
+  
+      // 解析为对象再返回标准 JSON
+      const jsonObj = JSON.parse(messageContent);
   
       return {
         statusCode: 200,
-        body: messageContent,
+        body: JSON.stringify(jsonObj),
       };
-  
     } catch (error) {
       console.error('Function error:', error);
       return {
