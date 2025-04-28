@@ -1,59 +1,54 @@
-const fetch = require('node-fetch'); // 如果环境有fetch，可以删掉这行
+const fetch = require('node-fetch');
 
-async function fetchDeepSeek(word) {
-  const apiKey = 'sk-fe248bf56d694559a0ecf5bf3b9d0f67'; // <<< 填你的真实 key
+exports.handler = async function(event, context) {
+  const apiKey = '你的DeepSeek API KEY'; // <<< 填上你的真实DeepSeek API Key
   const url = 'https://api.deepseek.com/v1/chat/completions';
 
+  const { word } = JSON.parse(event.body);
+
+  const body = {
+    model: 'deepseek-chat',
+    messages: [
+      {
+        role: 'system',
+        content: '你是一个英语助手，请返回这个单词的 JSON 格式：{ "word": "", "chineseDefinition": "", "phonetic": "", "chunkedWord": "" }，不要多余解释。'
+      },
+      {
+        role: 'user',
+        content: `单词: ${word}`
+      }
+    ]
+  };
+
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000); // 10秒超时
-
-    const body = {
-      model: 'deepseek-chat',
-      messages: [
-        {
-          role: 'system',
-          content: '你是一个英语助手，请返回这个单词的 JSON 格式：{ "word": "", "chineseDefinition": "", "phonetic": "", "chunkedWord": "" }，不要多余解释。'
-        },
-        {
-          role: 'user',
-          content: `单词: ${word}`
-        }
-      ]
-    };
-
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`
       },
-      body: JSON.stringify(body),
-      signal: controller.signal
+      body: JSON.stringify(body)
     });
-
-    clearTimeout(timeout);
-
-    if (!response.ok) {
-      throw new Error(`DeepSeek API 请求失败: ${response.status}`);
-    }
 
     const result = await response.json();
     const messageContent = result.choices[0].message.content;
 
-    // 解析 JSON
     try {
       const parsed = JSON.parse(messageContent);
-      return parsed; // { word, chineseDefinition, phonetic, chunkedWord }
-    } catch (err) {
-      console.error('DeepSeek返回格式解析失败:', messageContent);
-      throw new Error('DeepSeek 返回的格式错误，无法解析');
+      return {
+        statusCode: 200,
+        body: JSON.stringify(parsed)
+      };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'DeepSeek返回格式解析失败' })
+      };
     }
-
   } catch (error) {
-    console.error('调用 DeepSeek API 失败:', error.message);
-    throw error;
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: '调用DeepSeek失败', details: error.message })
+    };
   }
-}
-
-module.exports = { fetchDeepSeek };
+};

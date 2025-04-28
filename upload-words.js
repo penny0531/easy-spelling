@@ -1,45 +1,19 @@
-// upload-words.js
-
+// 调用 Netlify function 服务器端 fetchDeepSeek
 async function fetchDeepSeek(word) {
-  const apiKey = 'sk-fe248bf56d694559a0ecf5bf3b9d0f67'; // 换成你的真实API KEY
-  const url = 'https://api.deepseek.com/v1/chat/completions';
-
-  const body = {
-    model: 'deepseek-chat',
-    messages: [
-      {
-        role: 'system',
-        content: '你是一个英语助手，请返回这个单词的 JSON 格式：{ "word": "", "chineseDefinition": "", "phonetic": "", "chunkedWord": "" }，不要多余解释。'
-      },
-      {
-        role: 'user',
-        content: `单词: ${word}`
-      }
-    ]
-  };
-
-  const response = await fetch(url, {
+  const response = await fetch('/.netlify/functions/fetchDeepSeek', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify({ word })
   });
 
   if (!response.ok) {
-    throw new Error(`DeepSeek API 请求失败: ${response.status}`);
+    throw new Error(`Serverless Function调用失败: ${response.status}`);
   }
 
   const result = await response.json();
-  const messageContent = result.choices[0].message.content;
-
-  try {
-    return JSON.parse(messageContent);
-  } catch (err) {
-    console.error('解析DeepSeek返回失败:', messageContent);
-    throw new Error('DeepSeek返回格式异常');
-  }
+  return result;
 }
 
 // 自动分块函数
@@ -52,7 +26,7 @@ function splitChunks(word) {
   return chunks;
 }
 
-// 主处理函数
+// 处理上传的所有单词
 async function processAllWords(words) {
   const wordDetailsList = [];
 
@@ -76,7 +50,7 @@ async function processAllWords(words) {
   outputDiv.innerHTML = "<h2>Generated Word List:</h2><pre>" + JSON.stringify(wordDetailsList, null, 2) + "</pre>";
 }
 
-// 入口函数，绑定按钮
+// 入口函数：读取文件并处理
 function readFile() {
   const fileInput = document.getElementById('fileInput');
   const file = fileInput.files[0];
