@@ -3,7 +3,7 @@
   functions = "netlify/functions"
 
 [functions]
-  directory = "netlify/functions"
+  directory = "backend/functions"
 
 [[redirects]]
   from = "/*"
