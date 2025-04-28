@@ -45,7 +45,6 @@ exports.handler = async (event, context) => {
         phonetic,
       }),
     };
-
   } catch (error) {
     return {
       statusCode: 500,
