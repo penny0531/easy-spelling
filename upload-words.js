@@ -54,10 +54,11 @@ async function processAllWords(words) {
     const deepSeekResult = await fetchDeepSeek(word);
     let chunks;
     if (deepSeekResult.chunkedWord && deepSeekResult.chunkedWord.trim() !== "") {
-      // 优先用 DeepSeek 返回的分块
       chunks = deepSeekResult.chunkedWord.split(' ');
+      if (chunks.length === 1) {
+        chunks = splitChunks(word);
+      }
     } else {
-      // DeepSeek 没返回时用备用分块
       chunks = splitChunks(word);
     }
     const wordData = {

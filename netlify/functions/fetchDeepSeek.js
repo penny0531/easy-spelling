@@ -10,7 +10,7 @@ exports.handler = async function(event, context) {
         messages: [
           {
             role: 'system',
-            content: '你是一个英语助手，返回单词的JSON格式：{"word":"", "chineseDefinition":"", "phonetic":"", "chunkedWord":""}，不要多余解释。'
+            content: '你是一个英语助手，返回单词的JSON格式：{"word":"", "chineseDefinition":"", "phonetic":"", "chunkedWord":""}，chunkedWord 字段请严格用自然拼读法分块（即使是单音节单词也要分成多个拼读块，每个拼读块用空格分隔），不要多余解释。'
           },
           {
             role: 'user',
