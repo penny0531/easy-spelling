@@ -1,5 +1,5 @@
-// 替换这里的链接为你的阿里云 OSS 文件链接
-const wordListUrl = "https://penny-ai-teaching.oss-cn-beijing.aliyuncs.com/weather.json";  // 把这个链接换成你的
+// 替换为你的阿里云 OSS 单词表链接
+const wordListUrl = "https://penny-ai-teaching.oss-cn-beijing.aliyuncs.com/weather.json";
 
 let wordList = [];
 let currentWordIndex = 0;
@@ -14,7 +14,7 @@ function shuffle(array) {
     return array;
 }
 
-// 从阿里云 OSS 加载单词表
+// 页面加载时从 OSS 获取单词表
 window.onload = function() {
     fetch(wordListUrl)
         .then(res => res.json())
@@ -88,7 +88,9 @@ function resetWord() {
 
 // 单词发音
 function playWordSound() {
-    const utter = new SpeechSynthesisUtterance(wordList[currentWordIndex].word);
+    const currentWord = wordList[currentWordIndex];
+    if (!currentWord) return;
+    const utter = new SpeechSynthesisUtterance(currentWord.word);
     utter.lang = "en-US";
     speechSynthesis.speak(utter);
 }
