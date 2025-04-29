@@ -1,82 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>Upload Word List</title>
-  <style>
-    body {
-      background-color: #263b6b;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .container {
-      background-color: white;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      width: 90%;
-      max-width: 500px;
-    }
-    h1 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-    input[type="file"] {
-      margin-bottom: 20px;
-      font-size: 16px;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 10px;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    pre {
-      text-align: left;
-      background-color: #f0f8ff;
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 20px;
-      overflow-x: auto;
-    }
-    .footer {
-      position: absolute;
-      bottom: 10px;
-      right: 20px;
-      color: white;
-      font-size: 14px;
-      opacity: 0.8;
-    }
-  </style>
+  <title>上传单词表</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Upload Your Word List</h1>
-
-    <input type="file" id="fileInput">
-    <br>
-    <button onclick="readFile()">Upload and Process</button>
-
+  <div class="container upload-page">
+    <h1>上传你的单词表</h1>
+    <input type="file" id="fileInput" class="input-file">
+    <textarea id="manualInput" rows="5" placeholder="每行一个单词"></textarea>
+    <div class="button-row">
+      <button class="main-btn" onclick="readFile()">上传处理</button>
+    </div>
+    <div class="button-row">
+      <button class="main-btn" onclick="processManualInput()">手动输入</button>
+      <button class="main-btn" onclick="exportJSON()">导出 JSON</button>
+    </div>
     <div id="wordList"></div>
   </div>
-
-  <div class="footer">
-    📚 Powered by Penny's AI+Teaching Studio
-  </div>
-
   <script src="upload-words.js"></script>
 </body>
 </html>
