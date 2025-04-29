@@ -1,5 +1,5 @@
 // 替换这里的链接为你的阿里云 OSS 文件链接
-const wordListUrl = "https://penny-ai-teaching.oss-cn-beijing.aliyuncs.com/weather.txt";  // 把这个链接换成你的
+const wordListUrl = "https://penny-ai-teaching.oss-cn-beijing.aliyuncs.com/weather.json";  // 把这个链接换成你的
 
 let wordList = [];
 let currentWordIndex = 0;
