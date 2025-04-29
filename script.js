@@ -1,10 +1,7 @@
-const wordList = [
-    { word: "example", chunks: ["ex", "am", "ple"], meaning: "示例", phonetic: "/ɪgˈzæmpəl/" },
-    { word: "banana", chunks: ["ba", "na", "na"], meaning: "香蕉", phonetic: "/bəˈnænə/" },
-    { word: "apple", chunks: ["ap", "ple"], meaning: "苹果", phonetic: "/ˈæpəl/" },
-    { word: "sunshine", chunks: ["sun", "shine"], meaning: "阳光", phonetic: "/ˈsʌnʃaɪn/" }
-];
+// 替换这里的链接为你的阿里云 OSS 文件链接
+const wordListUrl = "https://penny-ai-teaching.oss-cn-beijing.aliyuncs.com/weather.txt";  // 把这个链接换成你的
 
+let wordList = [];
 let currentWordIndex = 0;
 let selectedChunks = [];
 
@@ -17,13 +14,27 @@ function shuffle(array) {
     return array;
 }
 
+// 从阿里云 OSS 加载单词表
+window.onload = function() {
+    fetch(wordListUrl)
+        .then(res => res.json())
+        .then(data => {
+            wordList = data;
+            loadWord();
+        })
+        .catch(err => {
+            alert("单词表加载失败，请检查网络连接！");
+            console.error(err);
+        });
+};
+
 // 初始化单词
 function loadWord() {
     selectedChunks = [];
     document.getElementById("celebration").innerText = "";
     const currentWord = wordList[currentWordIndex];
     document.getElementById("phonetic").innerText = currentWord.phonetic;
-    document.getElementById("meaning").innerText = currentWord.meaning;
+    document.getElementById("meaning").innerText = currentWord.chineseDefinition;
     document.getElementById("output").innerText = "";
 
     const shuffledChunks = shuffle([...currentWord.chunks]);
@@ -37,7 +48,6 @@ function loadWord() {
         blocksContainer.appendChild(btn);
     });
 
-    // 自动发音
     playWordSound();
 }
 
@@ -53,7 +63,6 @@ function checkAnswer() {
     const userAnswer = selectedChunks.join("");
 
     if (userAnswer === currentWord.word) {
-        // 正确
         showCelebration();
         playSuccessSound();
         setTimeout(() => {
@@ -63,9 +72,8 @@ function checkAnswer() {
                 currentWordIndex = 0;
             }
             loadWord();
-        }, 2500);
+        }, 1500);
     } else {
-        // 错误
         alert("❌ 拼错了，请再试一次！");
         playErrorSound();
         resetWord();
@@ -103,6 +111,3 @@ function playErrorSound() {
 function showCelebration() {
     document.getElementById("celebration").innerText = "🎉 Well Done!";
 }
-
-// 页面加载完成时初始化
-window.onload = loadWord;
