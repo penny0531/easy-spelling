@@ -310,3 +310,162 @@ textarea#manualInput {
     font-size: 16px;
     overflow-x: auto;
 }
+
+/* 上传页面样式 */
+.upload-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.book-selection {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.book-selection select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.input-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.input-file {
+    margin: 10px 0;
+}
+
+textarea#manualInput {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* 进度条样式 */
+.progress-container {
+    margin: 20px 0;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+/* 单词显示样式 */
+.word-item {
+    margin: 15px 0;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.word-header {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.phonetic {
+    margin-left: 10px;
+    color: #666;
+    font-style: italic;
+}
+
+.word-definition {
+    color: #666;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.word-chunks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+}
+
+.chunk {
+    background: #e9ecef;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #495057;
+}
+
+/* 导出部分样式 */
+.export-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.export-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.export-btn:hover {
+    background: #218838;
+}
+
+.export-info {
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* 按钮样式 */
+.button-row {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.main-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.main-btn:hover {
+    background: #0056b3;
+}

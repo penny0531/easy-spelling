@@ -2,23 +2,62 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>上传单词表</title>
+  <title>管理单词表</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container upload-page">
-    <h1>上传你的单词表</h1>
-    <input type="file" id="fileInput" class="input-file">
-    <textarea id="manualInput" rows="5" placeholder="每行一个单词"></textarea>
-    <div class="button-row">
-      <button class="main-btn" onclick="readFile()">上传处理</button>
+    <h1>管理单词表</h1>
+    
+    <div class="book-selection">
+      <h2>选择教材和单元：</h2>
+      <select id="bookSelect" onchange="loadUnits()">
+        <option value="">选择教材...</option>
+        <option value="starter">Think Starter</option>
+        <option value="think1">Think 1</option>
+      </select>
+
+      <select id="unitSelect" style="margin-left: 10px;">
+        <option value="">选择单元...</option>
+      </select>
     </div>
-    <div class="button-row">
-      <button class="main-btn" onclick="processManualInput()">手动输入</button>
-      <button class="main-btn" onclick="exportJSON()">导出 JSON</button>
+
+    <div class="input-section">
+      <h3>添加单词</h3>
+      <p>请输入或上传单词列表（每行一个单词）：</p>
+      <input type="file" id="fileInput" class="input-file">
+      <textarea id="manualInput" rows="10" placeholder="每行输入一个单词"></textarea>
     </div>
+
+    <div class="button-row">
+      <button class="main-btn" onclick="readFile()">处理文件</button>
+      <button class="main-btn" onclick="processManualInput()">处理输入</button>
+      <button class="main-btn" onclick="exportJSON()">导出JSON</button>
+      <button class="main-btn" onclick="window.location.href='index.html'">返回首页</button>
+    </div>
+
     <div id="wordList"></div>
   </div>
+
   <script src="upload-words.js"></script>
+  <script>
+    function loadUnits() {
+      const bookSelect = document.getElementById('bookSelect');
+      const unitSelect = document.getElementById('unitSelect');
+      
+      // 清空现有单元选项
+      unitSelect.innerHTML = '<option value="">选择单元...</option>';
+      
+      if (bookSelect.value) {
+        // 添加12个单元
+        for (let i = 1; i <= 12; i++) {
+          const option = document.createElement('option');
+          option.value = `${bookSelect.value}_unit${i}`;
+          option.textContent = `Unit ${i}`;
+          unitSelect.appendChild(option);
+        }
+      }
+    }
+  </script>
 </body>
 </html>
