@@ -23,7 +23,9 @@ function getWordListUrl() {
         window.location.href = 'index.html';
         return null;
     }
-    return `${baseUrl}/${book}/${unit}.json`;
+    // 构建正确的文件路径
+    const unitNumber = unit.split('unit')[1];
+    return `${baseUrl}/${book}/${book}_unit${unitNumber}.json`;
 }
 
 // 页面加载时从 OSS 获取单词表
@@ -46,7 +48,6 @@ window.onload = function() {
     unitInfo.innerHTML = `
         <h3>${book === 'starter' ? 'Think Starter' : 'Think 1'}</h3>
         <h4>Unit ${unit.split('unit')[1]}</h4>
-        <p>Welcome, ${userName}!</p>
     `;
     document.querySelector('.container').insertBefore(unitInfo, document.querySelector('.top-bar'));
 
