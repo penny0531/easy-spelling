@@ -34,10 +34,9 @@
 
     <script>
         // 页面加载时隐藏用户部分
-        document.querySelector('.user-section').style.display = 'none';
 
         // 只要输入内容就直接进入练习页面
-        document.getElementById('accessCode').addEventListener('input', function() {
+      
             const code = this.value.trim();
             if (code.length > 0) {
                 window.location.href = 'practice.html';
