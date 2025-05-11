@@ -41,50 +41,11 @@
         // 页面加载时隐藏用户部分
         document.querySelector('.user-section').style.display = 'none';
 
-        // 验证访问码
-        async function validateAccessCode(code) {
-            try {
-                const response = await fetch('/api/validateCode', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ code })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Invalid access code');
-                }
-
-                return await response.json();
-            } catch (error) {
-                throw error;
-            }
-        }
-
-        // 监听访问码输入
-        document.getElementById('accessCode').addEventListener('input', async function() {
-            const code = this.value.toUpperCase();
-            const errorElement = document.getElementById('accessError');
-            const userSection = document.querySelector('.user-section');
-
-            if (code.length >= 3) {
-                try {
-                    const result = await validateAccessCode(code);
-                    localStorage.setItem('accessLevel', result.type);
-                    errorElement.textContent = '';
-                    errorElement.classList.remove('show');
-                    
-                    if (result.type === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else {
-                        userSection.style.display = 'block';
-                    }
-                } catch (error) {
-                    errorElement.textContent = 'Invalid access code';
-                    errorElement.classList.add('show');
-                    userSection.style.display = 'none';
-                }
+        // 只要输入内容就直接进入练习页面
+        document.getElementById('accessCode').addEventListener('input', function() {
+            const code = this.value.trim();
+            if (code.length > 0) {
+                window.location.href = 'practice.html';
             }
         });
 
