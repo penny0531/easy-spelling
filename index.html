@@ -21,6 +21,19 @@
                 </select>
             </div>
 
+            <div class="user-section">
+  <input id="nameInput" …>
+  <select id="bookSelect">…</select>
+  <select id="unitSelect">…</select>
+  <button onclick="startPractice()">Start Practice</button>
+</div>
+<script>
+function startPractice() {
+  // 验证非空后：
+  window.location.href = 'practice.html';
+}
+</script>
+
             <div class="unit-selection" id="unitSelection" style="display: none;">
                 <h2>Select Unit:</h2>
                 <select id="unitSelect">
