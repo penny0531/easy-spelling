@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>访问码管理</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container upload-page">
+        <h1>访问码管理</h1>
+        
+        <div class="code-generator">
+            <h2>生成新的访问码</h2>
+            <div class="input-group">
+                <input type="text" id="userName" placeholder="用户姓名" class="input-field">
+                <select id="codePrefix" class="input-field">
+                    <option value="S">学生 (S)</option>
+                    <option value="T">教师 (T)</option>
+                </select>
+                <input type="date" id="expiryDate" class="input-field">
+                <button onclick="generateCode()" class="main-btn">生成访问码</button>
+            </div>
+            
+            <div id="generatedCode" class="code-display" style="display: none;">
+                <h3>新生成的访问码：</h3>
+                <div class="code-box">
+                    <span id="newCode"></span>
+                    <button onclick="copyCode()" class="copy-btn">复制</button>
+                </div>
+                <p class="note">请记录此码！格式：[类型(S/T)][4位数字]，例如：S1234</p>
+            </div>
+        </div>
+
+        <!-- 添加学生访问码管理部分 -->
+        <div class="student-code-manager">
+            <h2>学生访问码管理</h2>
+            <div class="input-group">
+                <input type="text" id="studentCode" value="STU" class="input-field" readonly>
+                <button onclick="updateStudentCode()" class="main-btn">更新学生码</button>
+            </div>
+            <p class="note">更新学生码后，使用旧码的学生将需要输入新码。建议在学期开始时更新。</p>
+        </div>
+
+        <div class="code-list">
+            <h2>当前活跃的访问码</h2>
+            <div id="activeCodesList"></div>
+        </div>
+
+        <div class="button-row">
+            <button class="main-btn" onclick="window.location.href='admin.html'">返回管理页面</button>
+        </div>
+    </div>
+
+    <script>
+        // 检查管理员权限
+        window.onload = function() {
+            const accessLevel = localStorage.getItem('accessLevel');
+            if (accessLevel !== 'admin') {
+                alert('需要管理员权限');
+                window.location.href = 'index.html';
+                return;
+            }
+            loadActiveCodes();
+        }
+
+        // 生成易记的访问码
+        function generateRandomCode(prefix) {
+            // 生成4位数字
+            const number = Math.floor(1000 + Math.random() * 9000);
+            return `${prefix}${number}`;
+        }
+
+        // 生成新的访问码
+        async function generateCode() {
+            const name = document.getElementById('userName').value;
+            const prefix = document.getElementById('codePrefix').value;
+            const expiry = document.getElementById('expiryDate').value;
+
+            if (!name || !expiry) {
+                alert('请填写用户姓名和有效期！');
+                return;
+            }
+
+            const code = generateRandomCode(prefix);
+            
+            try {
+                const response = await fetch('/.netlify/functions/generateCode', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        code,
+                        name,
+                        expiry
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('生成访问码失败');
+                }
+
+                // 显示生成的码
+                document.getElementById('newCode').textContent = code;
+                document.getElementById('generatedCode').style.display = 'block';
+                
+                // 清空输入
+                document.getElementById('userName').value = '';
+                document.getElementById('expiryDate').value = '';
+
+                // 刷新活跃码列表
+                loadActiveCodes();
+            } catch (error) {
+                alert('生成访问码失败：' + error.message);
+            }
+        }
+
+        // 复制访问码
+        function copyCode() {
+            const code = document.getElementById('newCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('访问码已复制到剪贴板！');
+            });
+        }
+
+        // 加载活跃的访问码
+        async function loadActiveCodes() {
+            try {
+                const response = await fetch('/.netlify/functions/listCodes');
+                const codes = await response.json();
+                
+                const codesHtml = codes.map(code => `
+                    <div class="code-item">
+                        <div class="code-info">
+                            <span class="code">${code.code}</span>
+                            <span class="name">${code.name}</span>
+                            <span class="expiry">到期：${new Date(code.expiry).toLocaleDateString()}</span>
+                            <span class="devices">已用设备：${code.deviceLogins ? code.deviceLogins.length : 0}/3</span>
+                        </div>
+                        <button onclick="revokeCode('${code.code}')" class="revoke-btn">撤销</button>
+                    </div>
+                `).join('');
+
+                document.getElementById('activeCodesList').innerHTML = codesHtml;
+            } catch (error) {
+                console.error('加载访问码失败：', error);
+            }
+        }
+
+        // 撤销访问码
+        async function revokeCode(code) {
+            if (!confirm('确定要撤销这个访问码吗？用户将无法继续使用。')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/.netlify/functions/revokeCode', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ code })
+                });
+
+                if (!response.ok) {
+                    throw new Error('撤销访问码失败');
+                }
+
+                loadActiveCodes();
+            } catch (error) {
+                alert('撤销访问码失败：' + error.message);
+            }
+        }
+
+        // 更新学生访问码
+        async function updateStudentCode() {
+            if (!confirm('确定要更新学生访问码吗？这将使所有使用旧码的学生需要重新输入新码。')) {
+                return;
+            }
+
+            const newCode = 'STU' + new Date().getFullYear();
+            try {
+                const response = await fetch('/.netlify/functions/updateStudentCode', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ newCode })
+                });
+
+                if (!response.ok) {
+                    throw new Error('更新学生码失败');
+                }
+
+                document.getElementById('studentCode').value = newCode;
+                alert('学生访问码已更新为：' + newCode);
+            } catch (error) {
+                alert('更新学生码失败：' + error.message);
+            }
+        }
+    </script>
+
+    <style>
+        .code-generator {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            flex: 1;
+        }
+
+        .code-display {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .code-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        .code-box span {
+            font-size: 24px;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .copy-btn {
+            padding: 5px 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .note {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .code-list {
+            margin-top: 30px;
+        }
+
+        .code-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .code-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .code {
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .devices {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .revoke-btn {
+            padding: 5px 10px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .revoke-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</body>
+</html> 

@@ -1,0 +1,108 @@
+[
+  {
+    "word": "hot",
+    "phonetic": "/hɒt/",
+    "chineseDefinition": "热的",
+    "chunks": [
+      "h",
+      "o",
+      "t"
+    ]
+  },
+  {
+    "word": "rain",
+    "phonetic": "/reɪn/",
+    "chineseDefinition": "雨",
+    "chunks": [
+      "r",
+      "ai",
+      "n"
+    ]
+  },
+  {
+    "word": "snow",
+    "phonetic": "/snəʊ/",
+    "chineseDefinition": "雪",
+    "chunks": [
+      "s",
+      "n",
+      "ow"
+    ]
+  },
+  {
+    "word": "sunny",
+    "phonetic": "/ˈsʌni/",
+    "chineseDefinition": "阳光充足的",
+    "chunks": [
+      "s",
+      "u",
+      "nn",
+      "y"
+    ]
+  },
+  {
+    "word": "cold",
+    "phonetic": "/kəʊld/",
+    "chineseDefinition": "冷的",
+    "chunks": [
+      "c",
+      "o",
+      "l",
+      "d"
+    ]
+  },
+  {
+    "word": "warm",
+    "phonetic": "/wɔːm/",
+    "chineseDefinition": "温暖的",
+    "chunks": [
+      "w",
+      "ar",
+      "m"
+    ]
+  },
+  {
+    "word": "weather",
+    "phonetic": "/ˈweðər/",
+    "chineseDefinition": "天气",
+    "chunks": [
+      "w",
+      "ea",
+      "th",
+      "er"
+    ]
+  },
+  {
+    "word": "cloud",
+    "phonetic": "/klaʊd/",
+    "chineseDefinition": "云",
+    "chunks": [
+      "c",
+      "l",
+      "ou",
+      "d"
+    ]
+  },
+  {
+    "word": "wind",
+    "phonetic": "/wɪnd/",
+    "chineseDefinition": "风",
+    "chunks": [
+      "w",
+      "i",
+      "n",
+      "d"
+    ]
+  },
+  {
+    "word": "storm",
+    "phonetic": "/stɔːrm/",
+    "chineseDefinition": "风暴",
+    "chunks": [
+      "s",
+      "t",
+      "or",
+      "m"
+    ]
+  }
+]

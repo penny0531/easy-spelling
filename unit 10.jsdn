@@ -1,0 +1,50 @@
+[
+  {
+    "word": "sunny",
+    "phonetic": "/ˈsʌni/",
+    "chineseDefinition": "晴朗的",
+    "chunks": ["sun", "ny"]
+  },
+  {
+    "word": "cloudy",
+    "phonetic": "/ˈklaʊdi/",
+    "chineseDefinition": "多云的",
+    "chunks": ["cloud", "y"]
+  },
+  {
+    "word": "hot",
+    "phonetic": "/hɒt/",
+    "chineseDefinition": "炎热的",
+    "chunks": ["hot"]
+  },
+  {
+    "word": "rain",
+    "phonetic": "/reɪn/",
+    "chineseDefinition": "下雨",
+    "chunks": ["rain"]
+  },
+  {
+    "word": "snow",
+    "phonetic": "/snəʊ/",
+    "chineseDefinition": "下雪",
+    "chunks": ["snow"]
+  },
+  {
+    "word": "windy",
+    "phonetic": "/ˈwɪndi/",
+    "chineseDefinition": "有风的",
+    "chunks": ["wind", "y"]
+  },
+  {
+    "word": "cold",
+    "phonetic": "/kəʊld/",
+    "chineseDefinition": "寒冷的",
+    "chunks": ["cold"]
+  },
+  {
+    "word": "warm",
+    "phonetic": "/wɔːm/",
+    "chineseDefinition": "温暖的",
+    "chunks": ["warm"]
+  }
+]

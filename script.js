@@ -40,17 +40,6 @@ window.onload = function() {
     const wordListUrl = getWordListUrl();
     if (!wordListUrl) return;
 
-    // 添加当前单元信息显示
-    const book = localStorage.getItem('selectedBook');
-    const unit = localStorage.getItem('selectedUnit');
-    const unitInfo = document.createElement('div');
-    unitInfo.className = 'unit-info';
-    unitInfo.innerHTML = `
-        <h3>${book === 'starter' ? 'Think Starter' : 'Think 1'}</h3>
-        <h4>Unit ${unit.split('unit')[1]}</h4>
-    `;
-    document.querySelector('.container').insertBefore(unitInfo, document.querySelector('.top-bar'));
-
     fetch(wordListUrl)
         .then(res => res.json())
         .then(data => {

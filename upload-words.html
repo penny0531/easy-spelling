@@ -33,7 +33,7 @@
       <button class="main-btn" onclick="readFile()">处理文件</button>
       <button class="main-btn" onclick="processManualInput()">处理输入</button>
       <button class="main-btn" onclick="exportJSON()">导出JSON</button>
-      <button class="main-btn" onclick="window.location.href='index.html'">返回首页</button>
+      <button class="main-btn" onclick="window.location.href='admin.html'">返回管理页面</button>
     </div>
 
     <div id="wordList"></div>
@@ -41,6 +41,16 @@
 
   <script src="upload-words.js"></script>
   <script>
+    // 检查管理员权限
+    window.onload = function() {
+      const accessLevel = localStorage.getItem('accessLevel');
+      if (accessLevel !== 'admin') {
+        alert('Access denied. Admin privileges required.');
+        window.location.href = 'index.html';
+        return;
+      }
+    }
+
     function loadUnits() {
       const bookSelect = document.getElementById('bookSelect');
       const unitSelect = document.getElementById('unitSelect');

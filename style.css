@@ -5,7 +5,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: "Arial", sans-serif;
+    font-family: 'Segoe UI', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    font-size: 20px;
+    color: #222;
 }
 
 .container {
@@ -50,16 +52,19 @@ body {
 }
 
 #phonetic {
-    font-size: 28px;
-    color: #333;
+    font-size: 40px;
+    color: #263b6b;
     font-weight: bold;
-    margin: 10px 0 5px;
+    margin: 18px 0 10px;
+    letter-spacing: 2px;
+    font-family: 'Segoe UI', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 #meaning {
-    font-size: 20px;
-    color: #777;
+    font-size: 26px;
+    color: #555;
     margin: 0;
+    font-family: 'Segoe UI', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 /* 分割线 */
@@ -128,9 +133,10 @@ body {
 }
 
 /* 首页标题 */
-h1 {
-    font-size: 42px;
-    margin-bottom: 30px; /* 保持和下面有空隙 */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Segoe UI', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
 /* 首页文字提示 */
@@ -140,10 +146,14 @@ p {
 }
 
 /* 首页输入框 */
+input, select, textarea {
+    font-family: 'Segoe UI', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    font-size: 20px;
+}
+
 input {
     width: 80%;
     padding: 18px 24px; /* 加大padding */
-    font-size: 22px;
     border: 2px solid #1f3c88;
     border-radius: 12px;
     margin-bottom: 40px; /* 和按钮拉开空间 */
@@ -468,4 +478,51 @@ textarea#manualInput {
 
 .main-btn:hover {
     background: #0056b3;
+}
+
+/* 访问码输入样式 */
+.access-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.access-input {
+    padding: 12px;
+    font-size: 16px;
+    width: 200px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+}
+
+.access-input:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+.error-message {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ff4444;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.error-message.show {
+    opacity: 1;
+}
+
+/* 用户部分样式 */
+.user-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.user-section.show {
+    opacity: 1;
+    transform: translateY(0);
 }

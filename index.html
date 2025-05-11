@@ -8,46 +8,99 @@
 <body>
     <div class="container home-page">
         <h1>Welcome to Spelling Practice!</h1>
-        <p>Please enter your name:</p>
-        <input type="text" id="nameInput" placeholder="Enter your name">
         
-        <div class="book-selection">
-            <h2>Select Your Textbook:</h2>
-            <select id="bookSelect" onchange="loadUnits()">
-                <option value="">Choose a textbook...</option>
-                <option value="starter">Think Starter</option>
-                <option value="think1">Think 1</option>
-            </select>
+        <div class="access-section">
+            <input type="text" id="accessCode" placeholder="Enter access code" class="access-input">
+            <p id="accessError" class="error-message"></p>
         </div>
 
-        <div class="unit-selection" id="unitSelection" style="display: none;">
-            <h2>Select Unit:</h2>
-            <select id="unitSelect">
-                <option value="">Choose a unit...</option>
-            </select>
-        </div>
+        <div class="user-section">
+            <input type="text" id="nameInput" placeholder="Enter your name">
+            
+            <div class="book-selection">
+                <h2>Select Your Textbook:</h2>
+                <select id="bookSelect" onchange="loadUnits()">
+                    <option value="">Choose a textbook...</option>
+                    <option value="starter">Think Starter</option>
+                    <option value="think1">Think 1</option>
+                </select>
+            </div>
 
-        <button class="home-btn" onclick="startPractice()">Start Practice</button>
-        <a href="upload-words.html" class="add-words-btn">Manage Word Lists ➡️</a>
+            <div class="unit-selection" id="unitSelection" style="display: none;">
+                <h2>Select Unit:</h2>
+                <select id="unitSelect">
+                    <option value="">Choose a unit...</option>
+                </select>
+            </div>
+
+            <button class="home-btn" onclick="startPractice()">Start Practice</button>
+        </div>
     </div>
 
     <script>
+        // 页面加载时隐藏用户部分
+        document.querySelector('.user-section').style.display = 'none';
+
+        // 验证访问码
+        async function validateAccessCode(code) {
+            try {
+                const response = await fetch('/api/validateCode', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ code })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Invalid access code');
+                }
+
+                return await response.json();
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // 监听访问码输入
+        document.getElementById('accessCode').addEventListener('input', async function() {
+            const code = this.value.toUpperCase();
+            const errorElement = document.getElementById('accessError');
+            const userSection = document.querySelector('.user-section');
+
+            if (code.length >= 3) {
+                try {
+                    const result = await validateAccessCode(code);
+                    localStorage.setItem('accessLevel', result.type);
+                    errorElement.textContent = '';
+                    errorElement.classList.remove('show');
+                    
+                    if (result.type === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        userSection.style.display = 'block';
+                    }
+                } catch (error) {
+                    errorElement.textContent = 'Invalid access code';
+                    errorElement.classList.add('show');
+                    userSection.style.display = 'none';
+                }
+            }
+        });
+
         function loadUnits() {
             const bookSelect = document.getElementById('bookSelect');
             const unitSelect = document.getElementById('unitSelect');
             const unitSelection = document.getElementById('unitSelection');
             
-            // 清空现有单元选项
             unitSelect.innerHTML = '<option value="">Choose a unit...</option>';
             
             if (bookSelect.value) {
-                // 显示单元选择
                 unitSelection.style.display = 'block';
                 
-                // 添加12个单元
                 for (let i = 1; i <= 12; i++) {
                     const option = document.createElement('option');
-                    option.value = `${bookSelect.value}_unit${i}`;
+                    option.value = `unit${i}`;
                     option.textContent = `Unit ${i}`;
                     unitSelect.appendChild(option);
                 }
@@ -71,7 +124,6 @@
                 return;
             }
 
-            // 存储选择的信息
             localStorage.setItem('userName', name);
             localStorage.setItem('selectedBook', book);
             localStorage.setItem('selectedUnit', unit);
