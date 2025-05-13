@@ -1,68 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>Spelling Practice</title>
+    <title>LingoWise - AI英语学习平台</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container home-page">
-        <h1>Welcome to Spelling Practice!</h1>
-        <input type="text" id="nameInput" placeholder="Enter your name">
-        <div class="book-selection">
-            <h2>Select Your Textbook:</h2>
-            <select id="bookSelect" onchange="loadUnits()">
-                <option value="">Choose a textbook...</option>
-                <option value="starter">Think Starter</option>
-                <option value="think1">Think 1</option>
-            </select>
-        </div>
-        <div class="unit-selection" id="unitSelection" style="display: none;">
-            <h2>Select Unit:</h2>
-            <select id="unitSelect">
-                <option value="">Choose a unit...</option>
-            </select>
-        </div>
-        <button class="home-btn" onclick="startPractice()">Start Practice</button>
+    <div class="platform-header">
+        <img src="logo.png" alt="LingoWise Logo" class="platform-logo" />
+        <h1 class="platform-title">LingoWise</h1>
+        <p class="platform-slogan">AI辅助英语学习平台</p>
     </div>
-    <div class="footer-logo">
-        Penny's English Studio
+    <div class="main-menu">
+        <a class="menu-card" href="select-unit.html">
+            <span>单词拼读练习</span>
+        </a>
+        <a class="menu-card" href="ai-writing.html">
+            <span>AI改作文</span>
+        </a>
+        <a class="menu-card" href="ai-speaking.html">
+            <span>AI口语测评</span>
+        </a>
+        <a class="menu-card" href="think-test.html">
+            <span>Think级别测试</span>
+        </a>
+        <a class="menu-card" href="lexile-test.html">
+            <span>阅读蓝思值测试</span>
+        </a>
+        <a class="menu-card" href="growth-coach.html">
+            <span>少儿成长规划师</span>
+        </a>
     </div>
-    <script>
-        function loadUnits() {
-            const bookSelect = document.getElementById('bookSelect');
-            const unitSelect = document.getElementById('unitSelect');
-            const unitSelection = document.getElementById('unitSelection');
-            unitSelect.innerHTML = '<option value="">Choose a unit...</option>';
-            if (bookSelect.value) {
-                unitSelection.style.display = 'block';
-                for (let i = 1; i <= 12; i++) {
-                    const option = document.createElement('option');
-                    option.value = `unit${i}`;
-                    option.textContent = `Unit ${i}`;
-                    unitSelect.appendChild(option);
-                }
-            } else {
-                unitSelection.style.display = 'none';
-            }
-        }
-        function startPractice() {
-            const name = document.getElementById('nameInput').value;
-            const book = document.getElementById('bookSelect').value;
-            const unit = document.getElementById('unitSelect').value;
-            if (name.trim() === '') {
-                alert('Please enter your name.');
-                return;
-            }
-            if (!book || !unit) {
-                alert('Please select both textbook and unit.');
-                return;
-            }
-            localStorage.setItem('userName', name);
-            localStorage.setItem('selectedBook', book);
-            localStorage.setItem('selectedUnit', unit);
-            window.location.href = 'practice.html';
-        }
-    </script>
+    <div class="platform-footer">© 2025 Penny's English Studio · LingoWise</div>
 </body>
 </html>
