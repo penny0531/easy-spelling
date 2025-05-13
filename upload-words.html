@@ -42,14 +42,7 @@
   <script src="upload-words.js"></script>
   <script>
     // 检查管理员权限
-    window.onload = function() {
-      const accessLevel = localStorage.getItem('accessLevel');
-      if (accessLevel !== 'admin') {
-        alert('Access denied. Admin privileges required.');
-        window.location.href = 'index.html';
-        return;
-      }
-    }
+
 
     function loadUnits() {
       const bookSelect = document.getElementById('bookSelect');

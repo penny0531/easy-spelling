@@ -526,3 +526,19 @@ textarea#manualInput {
     opacity: 1;
     transform: translateY(0);
 }
+
+.footer-logo {
+    position: fixed;
+    right: 24px;
+    bottom: 18px;
+    background: rgba(31, 60, 136, 0.85);
+    color: #fff;
+    font-size: 18px;
+    font-family: 'Segoe UI', 'Arial', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    padding: 8px 18px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    z-index: 999;
+    letter-spacing: 1px;
+    opacity: 0.92;
+}
