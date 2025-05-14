@@ -11,11 +11,73 @@
     <h1 class="platform-title">LingoWise</h1>
     <p class="platform-slogan">AI辅助英语学习平台</p>
   </div>
-  <div class="container" style="margin-top:40px;max-width:500px;">
+  <div class="container growth-coach">
     <h2>少儿成长规划师</h2>
-    <p style="font-size:1.5rem;color:#888;">敬请期待</p>
-    <a href="index.html" class="home-btn" style="margin-top:40px;">返回主页</a>
+    <div class="intro-text">
+      <p>欢迎来到 WisePath AI成长规划师，为您孩子分析命理结构与孩子成长节奏，帮您更理解孩子的性格与学习方式。</p>
+      <p class="quote">"成长的关键不是纠正，而是引导；不是战胜孩子，而是帮助孩子成为他自己。"</p>
+    </div>
+    
+    <form id="growthForm" class="growth-form">
+      <div class="form-group">
+        <label>孩子出生日期（阳历）：</label>
+        <input type="date" id="birthDate" required>
+      </div>
+      
+      <div class="form-group">
+        <label>出生时间（24小时制）：</label>
+        <input type="time" id="birthTime" required>
+      </div>
+      
+      <div class="form-group">
+        <label>出生地点（城市）：</label>
+        <input type="text" id="birthPlace" placeholder="例如：北京" required>
+      </div>
+      
+      <div class="form-group">
+        <label>目前的学习状态：</label>
+        <textarea id="studyStatus" placeholder="请描述孩子目前的学习情况、兴趣爱好等..." rows="3"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>特别关注的问题：</label>
+        <textarea id="specialConcerns" placeholder="如才艺选择、学习困扰等具体问题..." rows="3"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>联系方式：</label>
+        <input type="tel" id="contact" placeholder="手机号码" required>
+      </div>
+      
+      <div class="form-group">
+        <label>邮箱地址：</label>
+        <input type="email" id="email" placeholder="用于接收PDF分析报告" required>
+      </div>
+      
+      <button type="submit" class="submit-btn">提交咨询</button>
+    </form>
+    
+    <div class="process-intro">
+      <h3>咨询流程</h3>
+      <ol>
+        <li>收集基本信息，进行命理排盘</li>
+        <li>分析日主、五行分布、命格特征</li>
+        <li>解读性格、天赋、注意事项</li>
+        <li>分析当前大运/流年，结合实际情况给出PDF电子文档建议</li>
+        <li>针对具体问题提供个性化指导</li>
+      </ol>
+    </div>
+    
+    <a href="index.html" class="home-btn">返回主页</a>
   </div>
-  <div class="platform-footer">© 2025 Penny's English Studio · LingoWise</div>
+  <div class="platform-footer">© 2024 Penny's English Studio · LingoWise</div>
+  
+  <script>
+    document.getElementById('growthForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // 这里可以添加表单提交逻辑
+      alert('感谢您的咨询提交！我们会尽快与您联系。');
+    });
+  </script>
 </body>
 </html> 
