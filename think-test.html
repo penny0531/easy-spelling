@@ -11,11 +11,25 @@
     <h1 class="platform-title">LingoWise</h1>
     <p class="platform-slogan">AI辅助英语学习平台</p>
   </div>
-  <div class="container" style="margin-top:40px;">
-    <h2>Think级别测试</h2>
-    <p style="font-size:1.5rem;color:#888;">敬请期待</p>
-    <a href="index.html" class="home-btn" style="margin-top:40px;">返回主页</a>
+  
+  <div class="container test-container" id="test-container">
+    <h2>Think Level Test</h2>
+    
+    <div class="progress-bar-container">
+      <div class="progress-bar">
+        <div id="progress" class="progress"></div>
+      </div>
+      <p id="progress-text" class="progress-text"></p>
+    </div>
+
+    <div id="question-container"></div>
+
+    <div class="test-buttons">
+      <button onclick="submitAnswer()" class="submit-btn">Submit Answer</button>
+    </div>
   </div>
+
   <div class="platform-footer">© 2024 Penny's English Studio · LingoWise</div>
+  <script src="think-test.js"></script>
 </body>
 </html> 
