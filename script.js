@@ -30,13 +30,6 @@ function getWordListUrl() {
 
 // 页面加载时从 OSS 获取单词表
 window.onload = function() {
-    const userName = localStorage.getItem('userName');
-    if (!userName) {
-        alert('Please enter your name first!');
-        window.location.href = 'index.html';
-        return;
-    }
-
     const wordListUrl = getWordListUrl();
     if (!wordListUrl) return;
 
