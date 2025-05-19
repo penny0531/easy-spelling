@@ -39,6 +39,33 @@
         .preview-table th {
             background-color: #f5f5f5;
         }
+        #loginForm {
+            max-width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+        #loginForm input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #loginForm button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #loginForm button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -47,7 +74,15 @@
         <h1 class="platform-title">LingoWise</h1>
         <p class="platform-slogan">AI辅助英语学习平台</p>
     </div>
-    <div class="upload-container">
+
+    <div id="loginForm">
+        <h2>管理员登录</h2>
+        <input type="password" id="adminPassword" placeholder="请输入管理员密码" />
+        <button onclick="login()">登录</button>
+        <a href="index.html" class="home-btn" style="margin-top: 20px; display: block;">返回主页</a>
+    </div>
+
+    <div id="uploadContainer" class="upload-container" style="display: none;">
         <h2>上传单词列表</h2>
         <div class="book-selection">
             <label for="bookSelect">教材：</label>
@@ -85,11 +120,43 @@
             </table>
         </div>
         <button class="main-btn" onclick="uploadWords()" style="margin-top: 20px;">上传单词</button>
+        <button class="main-btn" onclick="logout()" style="margin-top: 20px; margin-left: 10px;">退出登录</button>
         <a href="index.html" class="home-btn" style="margin-top: 20px; display: block;">返回主页</a>
     </div>
     <div class="platform-footer">© 2024 Penny's English Studio · LingoWise</div>
 
     <script>
+        // 检查管理员权限
+        function checkAdmin() {
+            const adminPassword = localStorage.getItem('adminPassword');
+            if (adminPassword === 'penny2024') {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('uploadContainer').style.display = 'block';
+                return true;
+            }
+            return false;
+        }
+
+        // 登录函数
+        function login() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'penny2024') {
+                localStorage.setItem('adminPassword', password);
+                checkAdmin();
+            } else {
+                alert('密码错误');
+            }
+        }
+
+        // 退出登录
+        function logout() {
+            localStorage.removeItem('adminPassword');
+            window.location.reload();
+        }
+
+        // 页面加载时检查管理员权限
+        window.addEventListener('load', checkAdmin);
+
         // 动态生成单元选项
         document.getElementById('bookSelect').addEventListener('change', function() {
             const book = this.value;
@@ -137,6 +204,11 @@
 
         // 上传单词
         function uploadWords() {
+            if (!checkAdmin()) {
+                alert('请先登录管理员账号');
+                return;
+            }
+
             const book = document.getElementById('bookSelect').value;
             const unit = document.getElementById('unitSelect').value;
             const file = document.getElementById('wordFile').files[0];
