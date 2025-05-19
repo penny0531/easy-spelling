@@ -31,6 +31,22 @@
             <span>少儿成长规划师</span>
         </a>
     </div>
+    <div id="adminSection" style="display:none;text-align:center;margin-top:20px;">
+        <a href="upload-words.html" class="admin-btn">管理单词</a>
+    </div>
     <div class="platform-footer">© 2025 Penny's English Studio · LingoWise</div>
+
+    <script>
+        // 检查管理员权限
+        function checkAdmin() {
+            const adminPassword = localStorage.getItem('adminPassword');
+            if (adminPassword === 'penny2024') {
+                document.getElementById('adminSection').style.display = 'block';
+            }
+        }
+        
+        // 页面加载时检查管理员权限
+        window.addEventListener('load', checkAdmin);
+    </script>
 </body>
 </html>
