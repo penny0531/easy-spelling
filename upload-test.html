@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>上传测试题目 - LingoWise</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="platform-header">
+        <img src="logo.png" alt="LingoWise Logo" class="platform-logo" />
+        <h1 class="platform-title">LingoWise</h1>
+        <p class="platform-slogan">AI辅助英语学习平台</p>
+    </div>
+    
+    <div class="container upload-container">
+        <h2>上传测试题目</h2>
+        <div class="upload-section">
+            <input type="file" id="questionFile" accept=".json" class="file-input">
+            <p class="hint">请上传JSON格式的题目文件</p>
+        </div>
+        <div id="preview" class="preview-section"></div>
+        <button onclick="uploadQuestions()" class="submit-btn">确认上传</button>
+        <a href="index.html" class="home-btn">返回主页</a>
+    </div>
+
+    <div class="platform-footer">© 2024 Penny's English Studio · LingoWise</div>
+
+    <script>
+        let questionsData = null;
+
+        document.getElementById('questionFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        questionsData = JSON.parse(e.target.result);
+                        showPreview(questionsData);
+                    } catch (error) {
+                        alert('JSON格式错误，请检查文件格式');
+                        console.error('解析错误:', error);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function showPreview(data) {
+            const preview = document.getElementById('preview');
+            if (data && data.questions) {
+                preview.innerHTML = `
+                    <h3>预览</h3>
+                    <p>题目数量: ${data.questions.length}</p>
+                    <div class="question-preview">
+                        <h4>第一题预览:</h4>
+                        <p>${data.questions[0].question}</p>
+                        <ul>
+                            ${data.questions[0].options.map(opt => `<li>${opt}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        async function uploadQuestions() {
+            if (!questionsData) {
+                alert('请先选择文件');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/upload-questions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(questionsData)
+                });
+
+                if (response.ok) {
+                    alert('上传成功！');
+                    window.location.href = 'think-test.html';
+                } else {
+                    alert('上传失败，请重试');
+                }
+            } catch (error) {
+                console.error('上传错误:', error);
+                alert('上传出错，请重试');
+            }
+        }
+    </script>
+</body>
+</html> 
