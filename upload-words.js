@@ -152,7 +152,7 @@ async function processAllWords(words) {
     }
 
     // 显示结果
-    displayResults(wordDetailsList, bookUnit);
+    displayResults(wordDetailsList);
   } catch (error) {
     console.error('处理单词列表时出错:', error);
     alert('处理过程中出现错误，请查看控制台了解详情。');
@@ -160,9 +160,13 @@ async function processAllWords(words) {
 }
 
 // 显示处理结果
-function displayResults(wordDetailsList, bookUnit) {
+function displayResults(wordDetailsList) {
   const outputDiv = document.getElementById('wordList');
-  
+  // 动态获取当前教材和单元
+  const book = document.getElementById('bookSelect').value;
+  const unit = document.getElementById('unitSelect').value;
+  const fileName = (book && unit) ? `${book}_${unit}.json` : 'words.json';
+
   // 添加更清晰的显示
   const wordsHtml = wordDetailsList.map(word => `
     <div class="word-item">
@@ -183,8 +187,8 @@ function displayResults(wordDetailsList, bookUnit) {
     <div class="results-container">
       <h2>处理完成</h2>
       <div class="export-section">
-        <button onclick="exportJSON('${bookUnit}')" class="export-btn">导出 JSON</button>
-        <p class="export-info">文件将保存为: ${bookUnit}.json</p>
+        <button onclick="exportJSON()" class="export-btn">导出 JSON</button>
+        <p class="export-info">文件将保存为: ${fileName}</p>
       </div>
       <div class="words-list">
         ${wordsHtml}
@@ -197,16 +201,20 @@ function displayResults(wordDetailsList, bookUnit) {
 }
 
 // 导出JSON
-function exportJSON(bookUnit = '') {
+function exportJSON() {
   if (!lastWordDetailsList || !lastWordDetailsList.length) {
     alert('请先上传并处理单词！');
     return;
   }
-
-  const fileName = bookUnit ? `${bookUnit}.json` : 'words.json';
-  const dataStr = "data:text/json;charset=utf-8," + 
-                 encodeURIComponent(JSON.stringify(lastWordDetailsList, null, 2));
-  
+  // 动态获取教材和单元
+  const book = document.getElementById('bookSelect').value;
+  const unit = document.getElementById('unitSelect').value;
+  let fileName = 'words.json';
+  if (book && unit) {
+    fileName = `${book}_${unit}.json`;
+  }
+  const dataStr = "data:text/json;charset=utf-8," +
+    encodeURIComponent(JSON.stringify(lastWordDetailsList, null, 2));
   const dlAnchorElem = document.createElement('a');
   dlAnchorElem.setAttribute("href", dataStr);
   dlAnchorElem.setAttribute("download", fileName);

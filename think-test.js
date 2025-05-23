@@ -658,33 +658,39 @@ function showResults() {
     localStorage.setItem('testResults', JSON.stringify(testData));
 }
 
+// 计算总分并根据百分制分级
 function getOverallLevel() {
-    // 计算选择题得分率
-    const mcScore = scores.multipleChoice.correct / testQuestions.multipleChoice.length;
-    
-    // 计算写作平均水平
-    let writingA2Count = 0;
-    let totalWriting = 0;
-    
-    answers.writing.forEach(answer => {
-        if (answer.level === 'A2') writingA2Count++;
-        totalWriting++;
-    });
-    
-    answers.finalWriting.forEach(answer => {
-        if (answer.level === 'A2') writingA2Count++;
-        totalWriting++;
-    });
-    
-    const writingA2Ratio = totalWriting > 0 ? writingA2Count / totalWriting : 0;
-    
-    // 综合判断
-    if (mcScore >= 0.8 && writingA2Ratio >= 0.7) {
-        return 'A2 (高级)';
-    } else if (mcScore >= 0.6 && writingA2Ratio >= 0.3) {
-        return 'A2 (基础)';
-    } else {
+    // 选择题部分（multipleChoice + multipleChoiceExtra）
+    const mcCorrect = scores.multipleChoice.correct + scores.multipleChoiceExtra.correct;
+    const mcTotal = testQuestions.multipleChoice.length + testQuestions.multipleChoiceExtra.length;
+    const mcPartScore = mcTotal > 0 ? Math.round((mcCorrect / mcTotal) * 30) : 0;
+
+    // 阅读部分
+    const readingCorrect = answers.reading.filter(a => a.correct).length;
+    const readingTotal = testQuestions.reading[0].questions.length;
+    const readingPartScore = readingTotal > 0 ? Math.round((readingCorrect / readingTotal) * 20) : 0;
+
+    // 写作部分（writing + finalWriting）
+    const writingScore = answers.writing.reduce((sum, a) => sum + a.score, 0) +
+                         answers.finalWriting.reduce((sum, a) => sum + a.score, 0);
+    const writingMax = answers.writing.reduce((sum, a) => sum + a.maxScore, 0) +
+                       answers.finalWriting.reduce((sum, a) => sum + a.maxScore, 0);
+    const writingPartScore = writingMax > 0 ? Math.round((writingScore / writingMax) * 30) : 0;
+
+    // 功能语言部分如有可加上，这里暂不计入
+    // const functionalScore = ...
+    // const functionalPartScore = ...
+
+    // 总分
+    const totalScore = mcPartScore + readingPartScore + writingPartScore;
+
+    // 分级
+    if (totalScore < 40) {
+        return 'Pre-A1～A1（基础未达标）';
+    } else if (totalScore < 80) {
         return 'A1';
+    } else {
+        return 'A2';
     }
 }
 
